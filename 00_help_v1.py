@@ -1,43 +1,82 @@
 from tkinter import *
 from functools import partial  # To prevent unwanted windows
+import csv
+import random
 
 
-class Converter:
+# users choose 3, 5 or 10 rounds
+class ChooseRounds:
 
     def __init__(self):
-        # common format for all buttons
-        # Arial size 14 bold, with white text
-        button_font = ("Arial", "12", "bold")
-        button_fg = "#FFFFFF"
+        # invoke play class with three rounds for testing purposes.
+        self.to_play(3)
 
-        # Set up GUI Frame
-        self.temp_frame = Frame(padx=10, pady=10)
-        self.temp_frame.grid()
+    def to_play(self, num_rounds):
+        Play(num_rounds)
 
-        self.button_frame = Frame(padx=30, pady=30)
-        self.button_frame.grid(row=0)
-
-        self.to_help_button = Button(self.button_frame,
-                                     text="Help / Info",
-                                     bg="#CC6600",
-                                     fg=button_fg,
-                                     font=button_font, width=12,
-                                     command=self.to_help)
-        self.to_help_button.grid(row=1, column=0, padx=5, pady=5)
-
-    def to_help(self):
-        DisplayHelp(self)
+        # Hide root window (ie: hide rounds choice window).
+        root.withdraw()
 
 
+class Play:
+
+    def __init__(self, how_many):
+
+        self.play_box = Toplevel()
+
+        self.quest_frame = Frame(self.play_box, padx=10, pady=10)
+        self.quest_frame.grid()
+
+        self.control_frame = Frame(self.quest_frame)
+        self.control_frame.grid(row=6)
+
+        control_buttons = [
+            ["#B45840", "Help", "get help"],
+            ["#004C99", "Statistics", "get stats"],
+            ["#808080", "Start Over", "start over"]
+        ]
+
+        # list to hold references for control buttons
+        # so that the text of the 'start over' button
+        # can easily be configured when the game is over
+        self.control_button_ref = []
+
+        for item in range(0, 3):
+            self.make_control_button = Button(self.control_frame,
+                                              fg="#FFFFFF",
+                                              bg=control_buttons[item][0],
+                                              text=control_buttons[item][1],
+                                              width=11, font=("Arial", "12", "bold"),
+                                              command=lambda i=item: self.to_do(control_buttons[i][2]))
+            self.make_control_button.grid(row=0, column=item, padx=5, pady=5)
+
+            # Add buttons to control list
+            self.control_button_ref.append(self.make_control_button)
+
+        self.to_help_btn = self.control_button_ref[0]
+
+    def to_do(self, action):
+        if action == "get help":
+            DisplayHelp(self)
+        elif action == "get stats":
+            pass
+        else:
+            self.close_play()
+
+    # DON'T USE THIS FUNCTION
+    def close_play(self):
+        root.destroy()
+
+
+# Show users help / game tips
 class DisplayHelp:
-
     def __init__(self, partner):
         # setup dialogue box and background colour
-        background = "#ffe6cc"
+        background = "#ECB464"
         self.help_box = Toplevel()
 
         # disable help button
-        partner.to_help_button.config(state=DISABLED)
+        partner.to_help_btn.config(state=DISABLED)
 
         # If users press cross at top, closes help and
         # 'releases' help button
@@ -51,30 +90,26 @@ class DisplayHelp:
 
         self.help_heading_label = Label(self.help_frame,
                                         bg=background,
-                                        text="Help / Info",
+                                        text="Help Information",
                                         font=("Arial", "14", "bold"))
         self.help_heading_label.grid(row=0)
 
-        help_text = "To use the program, simply enter the temperature " \
-                    "you wish to convert and then choose to convert " \
-                    "to either degrees Celsius (centigrade) or " \
-                    "Fahrenheit..  \n\n" \
-                    " Note that -273 degrees C " \
-                    "(-459 F) is absolute zero (the coldest possible " \
-                    "temperature).  If you try to convert a " \
-                    "temperature that is less than -273 degrees C, " \
-                    "you will get an error message. \n\n " \
-                    "To see your " \
-                    "calculation history and export it to a text " \
-                    "file, please click the 'History / Export' button."
+        help_text = "Your objective is to input the amount of rounds " \
+                    "you wish to play and answer though 6 choices " \
+                    "correctly. Try your best even if you get them " \
+                    "incorrectly as its about struggling not succeeding.\n\n" \
+                    "Theres a [start over] button to restart " \
+                    "for any inconvenience you may face along " \
+                    "the way.  \n\n" \
+                    "Good luck have fun! and Choose carefully."
         self.help_text_label = Label(self.help_frame, bg=background,
-                                     text=help_text, wrap=350,
+                                     text=help_text, wraplength=350,
                                      justify="left")
         self.help_text_label.grid(row=1, padx=10)
 
         self.dismiss_button = Button(self.help_frame,
                                      font=("Arial", "12", "bold"),
-                                     text="Dismiss", bg="#CC6600",
+                                     text="Dismiss", bg="#B45840",
                                      fg="#FFFFFF",
                                      command=partial(self.close_help,
                                                      partner))
@@ -83,13 +118,14 @@ class DisplayHelp:
     # closes help dialogue (used by button and x at top of dialogue)
     def close_help(self, partner):
         # Put help button back to normal...
-        partner.to_help_button.config(state=NORMAL)
+
+        partner.to_help_btn.config(state=NORMAL)
         self.help_box.destroy()
 
 
 # main routine
 if __name__ == "__main__":
     root = Tk()
-    root.title("Temperature Converter")
-    Converter()
+    root.title("Colour Quest")
+    ChooseRounds()
     root.mainloop()
