@@ -13,7 +13,7 @@ class ChooseRounds:
         self.intro_frame.grid()
 
         # heading and brief instructions
-        self.intro_heading_label = Label(self.intro_frame, text="Greek Gods Quiz",
+        self.intro_heading_label = Label(self.intro_frame, text="Animal Young",
                                          font=("Arial", "16", "bold"))
         self.intro_heading_label.grid(row=0)
 
