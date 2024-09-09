@@ -6,7 +6,7 @@ class Converter:
     def __init__(self):
 
         # common format for all buttons
-        # Arial size 14 bold, with white text
+        # Arial size 14 bold, with white text7/48970*84*
         button_font = ("Arial", "14", "bold")
         button_fg = "#FFFFFF"
 

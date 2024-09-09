@@ -14,14 +14,13 @@ class ChooseRounds:
     def to_play(self, num_rounds):
         Play(num_rounds)
 
-        # Hide root window (ie: hide rounds choice window).
+        # Hide root window (i.e., hide rounds choice window).
         root.withdraw()
 
 
 class Play:
 
     def __init__(self, how_many):
-
         self.play_box = Toplevel()
 
         self.quest_frame = Frame(self.play_box, padx=10, pady=10)
@@ -32,7 +31,6 @@ class Play:
 
         control_buttons = [
             ["#B45840", "Help", "get help"],
-            ["#004C99", "Statistics", "get stats"],
             ["#808080", "Start Over", "start over"]
         ]
 
@@ -41,7 +39,7 @@ class Play:
         # can easily be configured when the game is over
         self.control_button_ref = []
 
-        for item in range(0, 3):
+        for item in range(0, 2):  # Changed to 2 because there are only two buttons now
             self.make_control_button = Button(self.control_frame,
                                               fg="#FFFFFF",
                                               bg=control_buttons[item][0],
@@ -58,8 +56,6 @@ class Play:
     def to_do(self, action):
         if action == "get help":
             DisplayHelp(self)
-        elif action == "get stats":
-            pass
         else:
             self.close_play()
 
@@ -95,13 +91,13 @@ class DisplayHelp:
         self.help_heading_label.grid(row=0)
 
         help_text = "Your objective is to input the amount of rounds " \
-                    "you wish to play and answer though 6 choices " \
+                    "you wish to play and answer through 6 choices " \
                     "correctly. Try your best even if you get them " \
-                    "incorrectly as its about struggling not succeeding.\n\n" \
-                    "Theres a [start over] button to restart " \
+                    "incorrectly as it's about struggling, not succeeding.\n\n" \
+                    "There's a [start over] button to restart " \
                     "for any inconvenience you may face along " \
                     "the way.  \n\n" \
-                    "Good luck have fun! and Choose carefully."
+                    "Good luck, have fun! and Choose carefully."
         self.help_text_label = Label(self.help_frame, bg=background,
                                      text=help_text, wraplength=350,
                                      justify="left")
@@ -118,7 +114,6 @@ class DisplayHelp:
     # closes help dialogue (used by button and x at top of dialogue)
     def close_help(self, partner):
         # Put help button back to normal...
-
         partner.to_help_btn.config(state=NORMAL)
         self.help_box.destroy()
 
@@ -126,6 +121,6 @@ class DisplayHelp:
 # main routine
 if __name__ == "__main__":
     root = Tk()
-    root.title("Colour Quest")
+    root.title("Animal Quiz")
     ChooseRounds()
     root.mainloop()
