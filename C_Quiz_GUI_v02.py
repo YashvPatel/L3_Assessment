@@ -101,7 +101,7 @@ class Quiz:
         self.rounds_won = IntVar()
         self.rounds_won.set(0)
 
-        print(f"you have started the quiz with {how_many} questions")
+        #        print(f"you have started the quiz with {how_many} questions")
 
         # Set up GUI Frame
         self.intro_frame = Frame(self.quiz_box, padx=10, pady=10)
@@ -111,9 +111,20 @@ class Quiz:
                                          font=("Arial", "16", "bold"))
         self.intro_heading_label.grid(row=0)
 
+        instructions = "Choose one of the colours below.  When you choose " \
+                       "a colour, the computer's choice and the results of " \
+                       "the round will be revealed."
+        self.instructions_label = Label(self.intro_frame, text=instructions,
+                                        wraplength=350, justify="left")
+        self.instructions_label.grid(row=1)
+
+        # Set up GUI Frame
+        self.choice_frame = Frame(self.quiz_box, padx=10, pady=10)
+        self.choice_frame.grid(row=2)
+
         self.start_over_button = Button(self.intro_frame, text="Start Over",
                                         command=self.close_quiz)
-        self.start_over_button.grid(row=1)
+        self.start_over_button.grid(row=4)
 
     def close_quiz(self):
         # quiz / allow new game to start
