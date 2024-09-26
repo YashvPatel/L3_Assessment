@@ -1,5 +1,7 @@
 from tkinter import *
 from functools import partial  # To prevent unwanted windows
+import csv
+import random
 
 
 class QuizApp:
@@ -101,7 +103,7 @@ class Quiz:
         self.rounds_won = IntVar()
         self.rounds_won.set(0)
 
-        #        print(f"you have started the quiz with {how_many} questions")
+        # print(f"you have started the quiz with {how_many} questions")
 
         # Set up GUI Frame
         self.intro_frame = Frame(self.quiz_box, padx=10, pady=10)
